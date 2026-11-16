@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#090909"><title>Haza Live — Demo</title>
+<style>
+:root{--bg:#090909;--panel:#171717;--gold:#d9ad48;--gold2:#f5d887;--muted:#aaa;--line:#35302a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:18px 16px 12px;background:linear-gradient(135deg,#211909,#090909);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:4}
+.brand{font-size:25px;font-weight:900;letter-spacing:1px;color:var(--gold2)}.sub{color:var(--muted);font-size:12px}
+.balance{float:right;border:1px solid #80672e;border-radius:20px;padding:7px 11px;color:var(--gold2);font-weight:700;margin-top:-34px}
+main{padding:15px 14px 90px;max-width:650px;margin:auto}.page{display:none}.page.active{display:block}
+h2{font-size:20px;margin:8px 0 12px}h3{font-size:16px;margin:5px 0 8px;color:var(--gold2)}
+.card{background:linear-gradient(145deg,#1d1b17,#131313);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}
+.hero{background:radial-gradient(circle at 80% 20%,#72531d,#20180b 45%,#151515);padding:22px}
+button{background:linear-gradient(135deg,#f3d27d,#b8892b);border:0;color:#17110a;font-weight:800;border-radius:12px;padding:11px 15px;font-size:14px;cursor:pointer}
+button.secondary{background:#28251f;color:var(--gold2);border:1px solid #66532a}button:disabled{opacity:.4}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.tile{background:#201e19;border:1px solid #4a3c20;border-radius:14px;padding:15px;text-align:center}.emoji{font-size:30px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 2px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{background:none;color:#aaa;padding:7px 4px;font-size:11px;flex:1;border-radius:8px}nav button.active{color:var(--gold2);background:#282116}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.muted{color:var(--muted);font-size:13px}.gold{color:var(--gold2)}.pill{font-size:11px;color:var(--gold2);border:1px solid #6b5424;border-radius:20px;padding:4px 8px}
+.result{font-size:24px;text-align:center;padding:15px;color:var(--gold2);min-height:58px}
+input{background:#090909;color:#fff;border:1px solid #5b4a2b;border-radius:9px;padding:10px;width:100%;margin:7px 0}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+footer{text-align:center;color:#777;font-size:11px;padding:12px}
+</style>
+</head>
+<body>
+<header><div class="brand">✦ HAZA LIVE</div><div class="sub">Social • Gifts • Games</div><div class="balance">🪙 <span id="coins">1000</span></div></header>
+<main>
+<section id="home" class="page active">
+ <div class="card hero"><span class="pill">WELCOME</span><h2>Haza Live में आपका स्वागत है</h2><p class="muted">दोस्तों से मिलें, gifts भेजें और मज़ेदार games खेलें।</p><button onclick="show('room')">Live Room खोलें</button></div>
+ <h2>आपके लिए</h2><div class="grid">
+  <div class="tile" onclick="show('gifts')"><div class="emoji">🎁</div><b>Gifts</b><div class="muted">Virtual gifts भेजें</div></div>
+  <div class="tile" onclick="show('games')"><div class="emoji">🎮</div><b>Games</b><div class="muted">Fruit • Spin • Wheel</div></div>
+  <div class="tile" onclick="show('wallet')"><div class="emoji">🪙</div><b>Wallet</b><div class="muted">Coin balance</div></div>
+  <div class="tile" onclick="show('admin')"><div class="emoji">🛡️</div><b>Admin Demo</b><div class="muted">Demo controls</div></div>
+ </div>
+ <div class="card"><h3>Live Rooms</h3><div class="row"><div><b>🎙️ Music & Friends</b><div class="muted">Host: Haza • 8/12 seats</div></div><button class="secondary" onclick="show('room')">Join</button></div></div>
+</section>
+<section id="room" class="page"><h2>🎙️ Live Room</h2><div class="card hero"><h2>Music & Friends</h2><p class="muted">Demo room • Voice chat अभी चालू नहीं है</p><div class="grid"><div class="tile">👑<br>Host</div><div class="tile">🎧<br>Guest 1</div><div class="tile">🪑<br>खाली सीट</div><div class="tile">🪑<br>खाली सीट</div></div><hr><button onclick="show('gifts')">🎁 Gift भेजें</button></div></section>
+<section id="gifts" class="page"><h2>🎁 Gift Store</h2><p class="muted">Gift भेजने पर demo coins खर्च होंगे।</p><div class="grid" id="giftgrid"></div><div class="result" id="giftmsg">अपना gift चुनें</div></section>
+<section id="games" class="page"><h2>🎮 Games Zone</h2><div class="card"><div class="row"><h3>🍒 Fruit Game</h3><span class="pill">Cost 20</span></div><div class="result" id="fruitresult">🍒 🍋 🍇</div><button onclick="fruit()">Play Fruit</button><p class="muted">तीन एक जैसे फल = 100 coins demo reward</p></div>
+<div class="card"><div class="row"><h3>🎰 Spin</h3><span class="pill">Cost 10</span></div><div class="result" id="spinresult">✨ Spin करें ✨</div><button onclick="spin()">Spin Now</button></div>
+<div class="card"><div class="row"><h3>🎡 Lucky Wheel</h3><span class="pill">Cost 15</span></div><div class="result" id="wheelresult">🎡 आपकी किस्मत?</div><button onclick="wheel()">घुमाएँ</button></div></section>
+<section id="wallet" class="page"><h2>🪙 My Wallet</h2><div class="card hero"><div class="muted">आपका Virtual Coin Balance</div><div style="font-size:38px;color:var(--gold2);font-weight:900">🪙 <span id="walletcoins">1000</span></div><p class="muted">केवल demo coins — कोई असली पैसा नहीं।</p><button class="secondary" onclick="addCoins()">+ 100 Demo Coins</button></div><div class="card"><h3>Recent Activity</h3><div id="history" class="muted">अभी कोई activity नहीं।</div></div></section>
+<section id="admin" class="page"><h2>🛡️ Admin Panel Demo</h2><div class="card"><h3>Dashboard</h3><div class="row"><span class="muted">Demo users</span><b>128</b></div><div class="row"><span class="muted">Active rooms</span><b>4</b></div><div class="row"><span class="muted">Gift catalogue</span><b>8</b></div></div><div class="card"><h3>Demo coin adjustment</h3><input id="adminamount" type="number" min="1" placeholder="Coins amount"><button onclick="adminAdd()">Add coins to this demo wallet</button><p class="muted">यह केवल इसी फोन के browser demo balance को बदलता है।</p></div><div class="card"><h3>Room moderation</h3><button class="secondary" onclick="alert('Demo: room moderation preview')">View room controls</button></div></section>
+</main>
+<nav>
+<button class="active" data-page="home" onclick="show('home')">⌂<br>Home</button><button data-page="room" onclick="show('room')">🎙️<br>Room</button><button data-page="gifts" onclick="show('gifts')">🎁<br>Gifts</button><button data-page="games" onclick="show('games')">🎮<br>Games</button><button data-page="wallet" onclick="show('wallet')">🪙<br>Wallet</button>
+</nav>
+<footer>HAZA LIVE DEMO • Virtual coins only • Not real-money gaming</footer>
+<script>
+let coins=Number(localStorage.getItem('haza_demo_coins')||1000), history=[];
+function update(){document.getElementById('coins').textContent=coins;document.getElementById('walletcoins').textContent=coins;localStorage.setItem('haza_demo_coins',coins);document.getElementById('history').innerHTML=history.slice(-6).reverse().map(x=>'• '+x).join('<br>')||'अभी कोई activity नहीं।'}
+function spend(n,label){if(coins<n){alert('Coins कम हैं! Wallet में demo coins जोड़ें।');return false}coins-=n;history.push(label+' −'+n);update();return true}
+function earn(n,label){coins+=n;history.push(label+' +'+n);update()}
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));}
+const gifts=[['🌹','Rose',10],['❤️','Heart',25],['🎂','Cake',50],['💎','Diamond',100],['👑','Crown',200],['🚗','Car',300],['🦁','Lion',500],['🌟','Star',75]];
+document.getElementById('giftgrid').innerHTML=gifts.map((g,i)=>`<div class="tile"><div class="emoji">${g[0]}</div><b>${g[1]}</b><p class="gold">🪙 ${g[2]}</p><button onclick="gift(${i})">Send</button></div>`).join('');
+function gift(i){let g=gifts[i];if(spend(g[2],'Gift '+g[1]))document.getElementById('giftmsg').textContent=g[0]+' '+g[1]+' भेजा गया!'}
+const fruits=['🍒','🍋','🍇','🍉','🍊','🍓'];
+function fruit(){if(!spend(20,'Fruit game'))return;let a=[0,1,2].map(()=>fruits[Math.floor(Math.random()*fruits.length)]);document.getElementById('fruitresult').textContent=a.join(' ');if(a.every(x=>x===a[0])){earn(100,'Fruit win');alert('शानदार! +100 demo coins')} }
+function spin(){if(!spend(10,'Spin'))return;let n=[0,5,10,20,50][Math.floor(Math.random()*5)];document.getElementById('spinresult').textContent=n?'🎉 +'+n+' coins':'इस बार कुछ नहीं';if(n)earn(n,'Spin reward')}
+function wheel(){if(!spend(15,'Lucky Wheel'))return;let n=[0,10,20,30,50,100][Math.floor(Math.random()*6)];document.getElementById('wheelresult').textContent=n?'🎡 +'+n+' coins':'फिर कोशिश करें';if(n)earn(n,'Wheel reward')}
+function addCoins(){earn(100,'Demo top-up')}
+function adminAdd(){let n=Number(document.getElementById('adminamount').value);if(n>0&&n<100000){earn(n,'Admin demo adjustment');document.getElementById('adminamount').value=''}else alert('कृपया सही amount डालें')}
+update();
+</script>
+</body></html>
